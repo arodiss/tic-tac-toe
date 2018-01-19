@@ -1,4 +1,4 @@
-from random import shuffle, randint, choice
+from random import shuffle, randint, choice, random
 from board import BoardState
 from copy import copy
 
@@ -107,12 +107,17 @@ class RandomizedSmartAgent(Agent):
         shuffle(good_cells)
         shuffle(bad_cells)
 
-        if excellent_cell not in board.x_occupied and excellent_cell not in board.o_occupied:
-            return excellent_cell
+        if random() > 0.5:
+            if excellent_cell not in board.x_occupied and excellent_cell not in board.o_occupied:
+                return excellent_cell
 
-        for cell in good_cells:
-            if cell not in board.x_occupied and cell not in board.o_occupied:
-                return cell
+            for cell in good_cells:
+                if cell not in board.x_occupied and cell not in board.o_occupied:
+                    return cell
+        else:
+            for cell in (good_cells + [excellent_cell]):
+                if cell not in board.x_occupied and cell not in board.o_occupied:
+                    return cell
 
         for cell in bad_cells:
             if cell not in board.x_occupied and cell not in board.o_occupied:
