@@ -29,15 +29,20 @@ randomized_smart_agent = RandomizedSmartAgent()
 max_points_scored = None
 while True:
     points_scored = 0
-    points_scored += play_set(neural_agent, random_agent)
-    points_scored += play_set(neural_agent, very_stupid_agent)
-    points_scored += play_set(neural_agent, advanced_random_agent)
-    points_scored += play_set(neural_agent, smart_stupid_agent)
-    points_scored += play_set(neural_agent, stupid_agent)
-    points_scored += play_set(neural_agent, smart_agent)
-    points_scored += play_set(neural_agent, randomized_smart_agent)
+    fatal_errors = 0
+    for adversary in [random_agent, very_stupid_agent, advanced_random_agent, smart_stupid_agent, stupid_agent, smart_agent, randomized_smart_agent]:
+        new_points, new_fatals = play_set(neural_agent, adversary)
+        points_scored += new_points
+        fatal_errors += new_fatals
 
-    print('{}Total points{}: {}'.format(FONT_BOLD + COLOR_GREEN, COLOR_END, points_scored))
+    print('Total points scored: {}{}{}, number of illegal moves: {}{}{}'.format(
+        FONT_BOLD + COLOR_GREEN,
+        points_scored,
+        COLOR_END,
+        FONT_BOLD + COLOR_RED,
+        fatal_errors,
+        COLOR_END
+    ))
     if max_points_scored is None or points_scored > max_points_scored:
         print('This is new best model! Saving it...')
         neural_agent.save()
