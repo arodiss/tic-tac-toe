@@ -6,4 +6,4 @@ Training is done via REINFORCE Policy Gradient (Sutton et al, 1999)
 
 You may watch agent training or play against AI
 
-To start, run `python main.py` (requires Python3)
+To start, run `python main.py` (requires Python3.4+)

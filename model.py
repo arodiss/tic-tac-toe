@@ -2,7 +2,7 @@ from random import random
 from pathlib import Path
 import numpy as np
 from keras.models import Sequential, save_model, load_model
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 
 
@@ -39,18 +39,24 @@ def vectorize_board(board):
 
 class NeuralAgent:
     num_inputs = 18
-    num_hidden_1 = 100
-    num_hidden_2 = 80
-    num_hidden_3 = 60
+    num_hidden_1 = 1000
+    num_hidden_2 = 250
+    num_hidden_3 = 200
+    dropout_rate_1 = 0.1
+    dropout_rate_2 = 0.25
+    dropout_rate_3 = 0.2
     num_outputs = 9
-    reward_discount_rate = .9
-    learning_rate = 1e-4
+    reward_discount_rate = .85
+    learning_rate = 3e-4
 
     def __init__(self):
         self.model = Sequential()
         self.model.add(Dense(self.num_hidden_1, activation='relu', input_shape=(self.num_inputs, )))
+        self.model.add(Dropout(self.dropout_rate_1))
         self.model.add(Dense(self.num_hidden_2, activation='relu'))
+        self.model.add(Dropout(self.dropout_rate_2))
         self.model.add(Dense(self.num_hidden_3, activation='relu'))
+        self.model.add(Dropout(self.dropout_rate_3))
         self.model.add(Dense(self.num_outputs, activation='softmax'))
         self.model.compile(
             loss='categorical_crossentropy',
