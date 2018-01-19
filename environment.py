@@ -68,20 +68,21 @@ def play_half_set(agent1, agent2, length=49):
     return total_result_1, total_result_2, fatal_wins, wins, draws, losses, fatal_losses
 
 
-def play_set(agent1, agent2):
+def play_set(agent1, agent2, show_result=True):
     first_total_result_1, first_total_result_2, first_fatal_wins, first_wins, first_draws, first_losses, first_fatal_losses = play_half_set(agent1, agent2)
     second_total_result_1, second_total_result_2, second_fatal_wins, second_wins, second_draws, second_losses, second_fatal_losses = play_half_set(agent2, agent1)
     total_result = first_total_result_1 + second_total_result_2
 
-    print('Versus {}: ++{} +{} ={} -{} --{}    {}  {}{}'.format(
-        str(agent2.__class__.__name__).rjust(25),
-        str(first_fatal_wins + second_fatal_losses).rjust(2),
-        str(first_wins + second_losses).rjust(2),
-        str(first_draws + second_draws).rjust(2),
-        str(first_losses + second_wins).rjust(2),
-        str(first_fatal_losses + second_fatal_wins).rjust(2),
-        '.' * 3,
-        '+' if total_result > 0 else '-',
-        abs(total_result)
-    ))
-    return total_result
+    if show_result:
+        print('Versus {}: ++{} +{} ={} -{} --{}    {}  {}{}'.format(
+            str(agent2.__class__.__name__).rjust(25),
+            str(first_fatal_wins + second_fatal_losses).rjust(2),
+            str(first_wins + second_losses).rjust(2),
+            str(first_draws + second_draws).rjust(2),
+            str(first_losses + second_wins).rjust(2),
+            str(first_fatal_losses + second_fatal_wins).rjust(2),
+            '.' * 3,
+            '+' if total_result > 0 else '-',
+            abs(total_result)
+        ))
+    return total_result, first_fatal_losses + second_fatal_wins
